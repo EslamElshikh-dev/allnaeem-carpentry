@@ -1,3 +1,4 @@
+# One-time verified bootstrap trigger.
 name: Bootstrap complete project
 
 on:
