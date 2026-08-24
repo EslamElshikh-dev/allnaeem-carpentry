@@ -13,7 +13,9 @@ import {
   SITE_URL,
 } from "@/data/site";
 
-const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+const googleVerification =
+  process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ??
+  "RhoDv6mIF2DsPd84eCLRiv9HGlPI-viiXPcJIJGafDM";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -61,7 +63,7 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
-  verification: googleVerification ? { google: googleVerification } : undefined,
+  verification: { google: googleVerification },
   manifest: "/manifest.webmanifest",
 };
 
@@ -76,7 +78,9 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
   return (
     <html lang="ar" dir="rtl">
       <body className="min-h-screen bg-sand-50 text-brand-950 antialiased">
-        <a href="#main-content" className="skip-link">الانتقال إلى المحتوى الرئيسي</a>
+        <a href="#main-content" className="skip-link">
+          الانتقال إلى المحتوى الرئيسي
+        </a>
         <Navbar />
         <div id="main-content">{children}</div>
         <Footer />
