@@ -63,7 +63,13 @@ export function ContactForm({
         <p className="mt-3 text-sm leading-7 text-slate-600">{description}</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="grid gap-4" noValidate>
+      <form
+        onSubmit={handleSubmit}
+        className="grid gap-4"
+        noValidate
+        toolname="prepare_carpentry_service_request"
+        tooldescription="يجهز طلب خدمة نجارة من النعيم للمقاولات وأعمال النجارة، ثم يفتح رسالة واتساب منظمة ليقوم المستخدم بمراجعتها وإرسالها."
+      >
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="form-field">
             <span>الاسم الكامل</span>
@@ -73,6 +79,7 @@ export function ContactForm({
               autoComplete="name"
               required
               placeholder="اكتب اسمك"
+              toolparamdescription="الاسم الكامل للعميل الذي يطلب خدمة النجارة."
             />
           </label>
 
@@ -86,13 +93,19 @@ export function ContactForm({
               dir="ltr"
               required
               placeholder="05xxxxxxxx"
+              toolparamdescription="رقم جوال العميل داخل السعودية للتواصل بشأن الطلب."
             />
           </label>
         </div>
 
         <label className="form-field">
           <span>الخدمة المطلوبة</span>
-          <select name="service" defaultValue={initialService} required>
+          <select
+            name="service"
+            defaultValue={initialService}
+            required
+            toolparamdescription="نوع خدمة النجارة التي يحتاجها العميل."
+          >
             {serviceOptions.map((service) => (
               <option key={service} value={service}>
                 {service}
@@ -108,6 +121,7 @@ export function ContactForm({
             required
             rows={5}
             placeholder="اذكر نوع العمل، الحي، والمقاسات التقريبية إن وجدت"
+            toolparamdescription="وصف العمل المطلوب، وحي العميل في الرياض، والمقاسات أو الصور المتاحة."
           />
         </label>
 
