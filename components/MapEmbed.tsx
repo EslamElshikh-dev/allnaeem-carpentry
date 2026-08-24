@@ -38,10 +38,9 @@ export function MapEmbed({ compact = false }: MapEmbedProps) {
         </a>
       </div>
 
-      <div className={heightClass}>
+      <div id="business-map" className={heightClass}>
         {isLoaded ? (
           <iframe
-            id="business-map"
             src={MAP_EMBED_URL}
             width="100%"
             height="100%"
