@@ -1,0 +1,5 @@
+@import "tailwindcss";
+@import "./styles/base.css";
+@import "./styles/ui.css";
+@import "./styles/visuals.css";
+@import "./styles/responsive.css";

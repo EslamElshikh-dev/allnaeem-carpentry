@@ -1,24 +1,23 @@
 # النعيم للمقاولات وأعمال النجارة
 
-موقع عربي متجاوب مبني باستخدام **Next.js App Router** و**Tailwind CSS** لخدمة النشاط المحلي في الرياض، مع مصدر موحد لبيانات الاسم والعنوان والهاتف، صفحات خدمات مستقلة، نموذج طلب عبر واتساب، خريطة Google، وبيانات منظمة قابلة للفحص.
+موقع عربي متجاوب مبني باستخدام **Next.js App Router** و**Tailwind CSS** لخدمة النشاط المحلي في الرياض، مع مصدر موحد لبيانات الاسم والعنوان والهاتف، وصفحات خدمات مستقلة، ونموذج طلب يفتح رسالة منظمة في واتساب، وخريطة Google، وبيانات منظمة قابلة للفحص.
 
-> الموقع يعزز اتساق الكيان الرقمي ويسهّل على العملاء ومحركات البحث فهم بيانات النشاط، لكنه لا يمثل ضماناً منفرداً لقبول أو توثيق ملف Google Business Profile.
+> الموقع يدعم اتساق الكيان الرقمي ويسهّل على العملاء ومحركات البحث فهم بيانات النشاط، لكنه لا يمثل ضمانًا منفردًا لقبول أو توثيق ملف Google Business Profile.
 
 ## هيكلية المشروع
 
 ```text
 allnaeem-carpentry/
-├── .github/
-│   └── workflows/
-│       └── quality.yml
+├── .github/workflows/quality.yml
 ├── app/
-│   ├── about/
-│   │   └── page.tsx
-│   ├── contact/
-│   │   └── page.tsx
-│   ├── services/
-│   │   └── [slug]/
-│   │       └── page.tsx
+│   ├── about/page.tsx
+│   ├── contact/page.tsx
+│   ├── services/[slug]/page.tsx
+│   ├── styles/
+│   │   ├── base.css
+│   │   ├── responsive.css
+│   │   ├── ui.css
+│   │   └── visuals.css
 │   ├── globals.css
 │   ├── icon.svg
 │   ├── layout.tsx
@@ -42,30 +41,28 @@ allnaeem-carpentry/
 │   ├── ServiceCard.tsx
 │   └── ServicePage.tsx
 ├── data/
+│   ├── services/
+│   │   ├── carpentry-repair.ts
+│   │   ├── custom-cabinets.ts
+│   │   ├── custom-wardrobes.ts
+│   │   └── general-carpentry.ts
+│   ├── service-types.ts
 │   ├── services.ts
 │   └── site.ts
-├── .env.example
-├── .gitignore
-├── .nvmrc
-├── eslint.config.mjs
-├── next-env.d.ts
-├── next.config.ts
-├── package.json
-├── postcss.config.mjs
-└── tsconfig.json
+└── ملفات إعداد Next.js وTypeScript وTailwind
 ```
 
 ## الصفحات
 
-- `/` الصفحة الرئيسية
-- `/services/general-carpentry` نجارة عامة
-- `/services/carpentry-repair` تصليح نجارة
-- `/services/custom-wardrobes` تفصيل دواليب
-- `/services/custom-cabinets` تفصيل خزائن
-- `/about` من نحن
-- `/contact` تواصل معنا
-- `/sitemap.xml` خريطة الموقع
-- `/robots.txt` تعليمات الزحف
+- `/` الصفحة الرئيسية.
+- `/services/general-carpentry` النجارة العامة.
+- `/services/carpentry-repair` تصليح النجارة.
+- `/services/custom-wardrobes` تفصيل الدواليب.
+- `/services/custom-cabinets` تفصيل الخزائن.
+- `/about` من نحن.
+- `/contact` تواصل معنا.
+- `/sitemap.xml` خريطة الموقع.
+- `/robots.txt` تعليمات الزحف.
 
 ## بيانات النشاط المعتمدة
 
@@ -74,57 +71,36 @@ allnaeem-carpentry/
 - **العنوان:** 3612 حمل بن مالك، 6642، حي المصيف، الرياض 12465.
 - **الهاتف وواتساب:** +966 57 021 0104
 
-يجب تعديل هذه البيانات من `data/site.ts` فقط عند حدوث تغيير رسمي، لتظل متطابقة في الرأس والفوتر وصفحة التواصل والسكيما.
+تُدار بيانات NAP من `data/site.ts` فقط، حتى تظل مطابقة في الرأس والفوتر وصفحة التواصل والخريطة والسكيما.
 
-## التشغيل محلياً
+## التشغيل والفحص
 
 ```bash
 npm install
 npm run dev
-```
-
-ثم افتح `http://localhost:3000`.
-
-## فحوص الجودة
-
-```bash
 npm run lint
 npm run typecheck
 npm run build
 ```
 
-يعمل مسار GitHub Actions تلقائياً عند الدفع إلى `main` أو فتح Pull Request، وينفذ الفحوص الثلاثة السابقة.
-
 ## متغيرات البيئة
 
-انسخ `.env.example` إلى `.env.local`:
-
-```bash
-cp .env.example .env.local
-```
-
-ثم اضبط:
-
 ```env
-NEXT_PUBLIC_SITE_URL=https://example.com
+NEXT_PUBLIC_SITE_URL=https://allnaeem-carpentry.vercel.app
 NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=
 ```
 
-- `NEXT_PUBLIC_SITE_URL`: النطاق النهائي دون `/` في النهاية.
-- `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`: قيمة التحقق فقط، وليس وسم `<meta>` كاملاً.
+- اضبط `NEXT_PUBLIC_SITE_URL` على النطاق النهائي دون `/` في النهاية.
+- أضف قيمة Google Search Console فقط عند توفرها، وليس وسم `<meta>` كاملاً.
+
+## SEO والبيانات المنظمة
+
+- الصفحة الرئيسية: `LocalBusiness` + `WebSite`.
+- صفحات الخدمات: `Service` + `FAQPage` + `BreadcrumbList`.
+- صفحات من نحن والتواصل: `AboutPage` و`ContactPage`.
+- ملفات ديناميكية: `sitemap.ts` و`robots.ts` و`manifest.ts`.
+- لا توجد أسعار أو ساعات أو سنوات خبرة أو ادعاءات غير موثقة داخل السكيما.
 
 ## النشر على Vercel
 
-1. اربط المستودع بمشروع Vercel.
-2. أضف `NEXT_PUBLIC_SITE_URL` بالنطاق النهائي في إعدادات Environment Variables.
-3. أضف قيمة Google Search Console عند توفرها.
-4. انشر المشروع ثم افحص `/sitemap.xml` و`/robots.txt` وصفحات الخدمات.
-5. أرسل رابط خريطة الموقع في Google Search Console بعد ربط النطاق النهائي.
-
-## ملاحظات SEO والبيانات المنظمة
-
-- الصفحة الرئيسية تتضمن `LocalBusiness` و`WebSite` بصيغة JSON-LD.
-- كل صفحة خدمة تتضمن `Service` و`FAQPage` و`BreadcrumbList`.
-- العنوان والهاتف والإحداثيات والخريطة تُدار من مصدر موحد.
-- لا توجد ساعات عمل أو أسعار أو سنوات خبرة غير موثقة داخل السكيما.
-- ظهور النتائج الغنية أو قبول توثيق الملف التجاري يخضع لسياسات Google وفحوصها، وليس للكود وحده.
+اربط المستودع بمشروع Vercel، أضف متغير `NEXT_PUBLIC_SITE_URL`، ثم انشر `main`. بعد ربط النطاق النهائي افحص `/sitemap.xml` وأرسله إلى Google Search Console.

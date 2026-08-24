@@ -1,0 +1,22 @@
+.reveal { opacity:0; transform:translateY(24px); transition:opacity 700ms cubic-bezier(.2,.8,.2,1),transform 700ms cubic-bezier(.2,.8,.2,1); }
+.reveal.is-visible { opacity:1; transform:translateY(0); }
+@keyframes pulse-ring { 0% { transform:scale(.92); opacity:.55; } 65%,100% { transform:scale(1.38); opacity:0; } }
+@media (max-width:640px) {
+  .workshop-visual { min-height:27rem; border-radius:1.75rem; }
+  .wood-board-one { right:1.2rem; width:72%; }
+  .wood-board-two { left:1rem; width:78%; }
+  .wood-board-three { right:2rem; width:68%; }
+  .cabinet-model { width:11.5rem; height:12rem; }
+  .cabinet-model-handle-right { right:5.25rem; }
+  .cabinet-model-handle-left { left:5.25rem; }
+  .workshop-badge { right:.8rem; bottom:.8rem; }
+  .service-hero-visual { min-height:23rem; }
+  .service-icon-cube-large { width:8.5rem; height:8.5rem; }
+  .service-hero-ring-one { width:15rem; height:15rem; }
+  .service-hero-ring-two { width:19rem; height:19rem; }
+  .floating-tooltip { display:none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
+  .reveal { opacity:1; transform:none; }
+}
