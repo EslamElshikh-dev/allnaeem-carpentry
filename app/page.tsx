@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { BusinessProofHero } from "@/components/BusinessProofHero";
+import { BusinessProofShowcase } from "@/components/BusinessProofShowcase";
 import { ContactForm } from "@/components/ContactForm";
 import { Icon } from "@/components/Icon";
 import { JsonLd } from "@/components/JsonLd";
@@ -8,6 +10,7 @@ import { MapEmbed } from "@/components/MapEmbed";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { ServiceCard } from "@/components/ServiceCard";
+import { businessProofImages } from "@/data/businessProof";
 import {
   ADDRESS,
   ADDRESS_LONG,
@@ -27,7 +30,7 @@ import { services } from "@/data/services";
 export const metadata: Metadata = {
   title: { absolute: `${BUSINESS_NAME} | نجار في الرياض` },
   description:
-    "النعيم للمقاولات وأعمال النجارة في حي المصيف بالرياض: نجارة عامة، تصليح نجارة، تفصيل دواليب وتفصيل خزائن حسب المقاس.",
+    "النعيم للمقاولات وأعمال النجارة في حي المصيف بالرياض: مقر فعلي ولافتة واضحة، نجارة عامة، تصليح نجارة، تفصيل دواليب وتفصيل خزائن حسب المقاس.",
   alternates: { canonical: "/" },
 };
 
@@ -42,7 +45,12 @@ const localBusinessSchema = {
   url: SITE_URL,
   telephone: PHONE_E164,
   logo: `${SITE_URL}/icon.svg`,
-  image: `${SITE_URL}/icon.svg`,
+  image: businessProofImages.map((image) => ({
+    "@type": "ImageObject",
+    contentUrl: `${SITE_URL}${image.src}`,
+    caption: image.title,
+    description: image.alt,
+  })),
   hasMap: MAPS_URL,
   sameAs: [MAPS_URL],
   address: {
@@ -108,8 +116,8 @@ const trustPoints = [
   },
   {
     icon: "map-pin" as const,
-    title: "نشاط محلي بالرياض",
-    description: "عنوان ثابت في حي المصيف وخدمة لمختلف أحياء المدينة.",
+    title: "مقر فعلي بالرياض",
+    description: "عنوان ثابت ولافتة واضحة في حي المصيف وخدمة داخل الرياض.",
   },
 ];
 
@@ -154,7 +162,7 @@ export default function HomePage() {
             <div className="relative z-10">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-extrabold text-wood-300 backdrop-blur">
                 <Icon name="map-pin" className="size-4" />
-                نجار في حي المصيف وخدمة داخل الرياض
+                مقر فعلي في حي المصيف وخدمة داخل الرياض
               </div>
               <h1 className="mt-6 max-w-4xl text-balance text-4xl font-black leading-[1.42] sm:text-5xl lg:text-[3.55rem]">
                 النعيم للمقاولات
@@ -164,8 +172,8 @@ export default function HomePage() {
               </h1>
               <p className="mt-6 max-w-2xl text-base leading-8 text-white/70 sm:text-lg sm:leading-9">
                 نجارة عامة، صيانة وتصليح الأعمال الخشبية، وتفصيل الدواليب
-                والخزائن حسب المقاس بخطوات واضحة تبدأ من فهم الطلب ورفع
-                المقاسات وتنتهي بالتركيب والمراجعة.
+                والخزائن حسب المقاس، من مقر فعلي يحمل اسم النشاط ورقم التواصل
+                في حي المصيف بالرياض.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <a
@@ -191,7 +199,7 @@ export default function HomePage() {
                   <dd>{BUSINESS_CATEGORY}</dd>
                 </div>
                 <div className="hero-fact">
-                  <dt>الموقع</dt>
+                  <dt>المقر</dt>
                   <dd>حي المصيف</dd>
                 </div>
                 <div className="hero-fact col-span-2 sm:col-span-1">
@@ -202,41 +210,7 @@ export default function HomePage() {
             </div>
 
             <Reveal className="relative mx-auto w-full max-w-xl" delay={120}>
-              <div
-                className="workshop-visual"
-                aria-label="رسم توضيحي لأعمال النجارة"
-              >
-                <div className="workshop-backdrop" />
-                <div className="wood-board wood-board-one" />
-                <div className="wood-board wood-board-two" />
-                <div className="wood-board wood-board-three" />
-                <div className="tool-card tool-card-hammer">
-                  <Icon name="hammer" className="size-8" />
-                </div>
-                <div className="tool-card tool-card-ruler">
-                  <Icon name="ruler" className="size-8" />
-                </div>
-                <div className="cabinet-model">
-                  <span className="cabinet-model-top" />
-                  <span className="cabinet-model-door cabinet-model-door-right" />
-                  <span className="cabinet-model-door cabinet-model-door-left" />
-                  <span className="cabinet-model-handle cabinet-model-handle-right" />
-                  <span className="cabinet-model-handle cabinet-model-handle-left" />
-                </div>
-                <div className="workshop-badge">
-                  <span className="grid size-10 place-items-center rounded-xl bg-brand-950 text-white">
-                    <Icon name="check" className="size-5" />
-                  </span>
-                  <div>
-                    <p className="text-xs font-bold text-slate-500">
-                      تفصيل حسب
-                    </p>
-                    <p className="text-sm font-black text-brand-950">
-                      المقاس والمساحة
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <BusinessProofHero />
             </Reveal>
           </div>
         </section>
@@ -308,7 +282,9 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="section-space bg-white">
+        <BusinessProofShowcase />
+
+        <section className="section-space bg-sand-50">
           <div className="container-shell grid gap-12 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
             <Reveal>
               <div className="relative overflow-hidden rounded-[2rem] bg-brand-950 p-7 text-white sm:p-10">
@@ -359,7 +335,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="section-space bg-sand-50">
+        <section className="section-space bg-white">
           <div className="container-shell">
             <Reveal>
               <SectionHeading
@@ -389,12 +365,12 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="section-space bg-white" id="location">
+        <section className="section-space bg-sand-50" id="location">
           <div className="container-shell">
             <Reveal>
               <SectionHeading
                 eyebrow="الموقع وبيانات النشاط"
-                title="موقع النعيم للمقاولات وأعمال النجارة في حي المصيف"
+                title="مقر النعيم للمقاولات وأعمال النجارة في حي المصيف"
                 description={`العنوان: ${ADDRESS_LONG}. افتح الموقع في خرائط Google أو تواصل مباشرة لتنسيق الخدمة داخل الرياض.`}
                 align="center"
               />
@@ -405,10 +381,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section
-          className="section-space bg-sand-50"
-          id="request-service"
-        >
+        <section className="section-space bg-white" id="request-service">
           <div className="container-shell grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
             <Reveal>
               <div className="lg:sticky lg:top-32">

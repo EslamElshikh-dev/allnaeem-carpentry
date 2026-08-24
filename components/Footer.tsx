@@ -24,8 +24,8 @@ export function Footer() {
         <div>
           <BrandLogo inverted />
           <p className="mt-5 max-w-md text-sm leading-7 text-white/65">
-            {BUSINESS_NAME}، خدمات نجارة وصيانة وتفصيل دواليب وخزائن حسب
-            المقاس داخل مدينة الرياض.
+            {BUSINESS_NAME}، مقر فعلي في حي المصيف وخدمات نجارة وصيانة وتفصيل
+            دواليب وخزائن حسب المقاس داخل مدينة الرياض.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <a
@@ -53,6 +53,11 @@ export function Footer() {
             <li>
               <Link className="footer-link" href="/">
                 الرئيسية
+              </Link>
+            </li>
+            <li>
+              <Link className="footer-link" href="/gallery">
+                صور النشاط
               </Link>
             </li>
             <li>

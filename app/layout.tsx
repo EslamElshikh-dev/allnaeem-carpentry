@@ -7,6 +7,7 @@ import "./globals.css";
 import { FloatingButtons } from "@/components/FloatingButtons";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
+import { socialProofImage } from "@/data/businessProof";
 import {
   BUSINESS_DESCRIPTION,
   BUSINESS_NAME,
@@ -46,11 +47,20 @@ export const metadata: Metadata = {
     siteName: BUSINESS_NAME,
     title: `${BUSINESS_NAME} | نجار في الرياض`,
     description: BUSINESS_DESCRIPTION,
+    images: [
+      {
+        url: socialProofImage,
+        width: 360,
+        height: 640,
+        alt: `المقر واللافتة ومركبة العمل التابعة لـ ${BUSINESS_NAME}`,
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: `${BUSINESS_NAME} | نجار في الرياض`,
     description: BUSINESS_DESCRIPTION,
+    images: [socialProofImage],
   },
   robots: {
     index: true,

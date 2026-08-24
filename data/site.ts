@@ -28,6 +28,7 @@ export const BUSINESS_DESCRIPTION =
 export const navigation = [
   { label: "الرئيسية", href: "/" },
   { label: "خدماتنا", href: "/#services" },
+  { label: "صور النشاط", href: "/gallery" },
   { label: "من نحن", href: "/about" },
   { label: "تواصل معنا", href: "/contact" },
 ] as const;
