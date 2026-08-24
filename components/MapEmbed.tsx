@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { Icon } from "@/components/Icon";
 import { ADDRESS, MAP_EMBED_URL, MAPS_URL } from "@/data/site";
@@ -10,8 +10,39 @@ type MapEmbedProps = {
 };
 
 export function MapEmbed({ compact = false }: MapEmbedProps) {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const [shouldLoadMap, setShouldLoadMap] = useState(false);
   const heightClass = compact ? "h-[340px]" : "h-[450px]";
+
+  useEffect(() => {
+    const mapContainer = mapContainerRef.current;
+
+    if (!mapContainer) {
+      return;
+    }
+
+    if (!("IntersectionObserver" in window)) {
+      setShouldLoadMap(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setShouldLoadMap(true);
+          observer.disconnect();
+        }
+      },
+      {
+        rootMargin: "500px 0px",
+        threshold: 0.01,
+      },
+    );
+
+    observer.observe(mapContainer);
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <div className="overflow-hidden rounded-[1.75rem] border border-brand-900/10 bg-white shadow-xl shadow-brand-950/10">
@@ -38,52 +69,37 @@ export function MapEmbed({ compact = false }: MapEmbedProps) {
         </a>
       </div>
 
-      <div id="business-map" className={heightClass}>
-        {isLoaded ? (
+      <div
+        ref={mapContainerRef}
+        id="business-map"
+        className={`${heightClass} relative overflow-hidden bg-sand-50`}
+        aria-busy={!shouldLoadMap}
+      >
+        {shouldLoadMap ? (
           <iframe
             src={MAP_EMBED_URL}
             width="100%"
             height="100%"
             style={{ border: 0 }}
             allowFullScreen
+            loading="lazy"
             referrerPolicy="strict-origin-when-cross-origin"
             title="موقع النعيم للمقاولات وأعمال النجارة في حي المصيف بالرياض"
             className="block"
           />
         ) : (
-          <div className="grid h-full place-items-center bg-sand-50 p-6 text-center">
-            <div className="max-w-md">
-              <span className="mx-auto grid size-16 place-items-center rounded-2xl bg-brand-950 text-white shadow-xl shadow-brand-950/20">
-                <Icon name="map-pin" className="size-8" />
+          <div
+            role="status"
+            aria-live="polite"
+            className="grid h-full place-items-center bg-[radial-gradient(circle_at_center,rgba(223,184,118,0.16),transparent_55%)] p-6 text-center"
+          >
+            <div>
+              <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-brand-950 text-white shadow-xl shadow-brand-950/20">
+                <Icon name="map-pin" className="size-7" />
               </span>
-              <h3 className="mt-5 text-xl font-black text-brand-950">
-                خريطة الموقع التفاعلية
-              </h3>
-              <p className="mt-3 text-sm leading-7 text-slate-600">
-                يتم تحميل خريطة Google عند الطلب لحماية الخصوصية، وتحسين سرعة
-                الصفحة، وتجنّب تحميل موارد خارجية غير ضرورية.
+              <p className="mt-4 text-sm font-extrabold text-brand-950">
+                يتم تجهيز الخريطة تلقائيًا…
               </p>
-              <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-                <button
-                  type="button"
-                  aria-controls="business-map"
-                  aria-expanded={isLoaded}
-                  onClick={() => setIsLoaded(true)}
-                  className="button-primary min-h-12 px-6"
-                >
-                  <Icon name="map-pin" className="size-5" />
-                  عرض الخريطة
-                </button>
-                <a
-                  href={MAPS_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="button-secondary min-h-12 px-6"
-                >
-                  فتح الاتجاهات
-                  <Icon name="external-link" className="size-4" />
-                </a>
-              </div>
             </div>
           </div>
         )}
