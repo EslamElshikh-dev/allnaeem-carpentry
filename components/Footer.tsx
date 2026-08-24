@@ -80,23 +80,26 @@ export function Footer() {
 
         <div>
           <h2 className="footer-title">بيانات النشاط</h2>
-          <dl className="mt-5 space-y-4 text-sm text-white/65">
-            <div className="flex items-start gap-3">
-              <Icon name="home" className="mt-1 size-5 shrink-0 text-wood-400" />
-              <div>
-                <dt className="sr-only">اسم النشاط</dt>
-                <dd className="font-bold text-white">{BUSINESS_NAME}</dd>
-                <dd className="mt-1">الفئة: {BUSINESS_CATEGORY}</dd>
-              </div>
-            </div>
-            <div className="flex items-start gap-3">
-              <Icon
-                name="map-pin"
-                className="mt-1 size-5 shrink-0 text-wood-400"
-              />
-              <div>
-                <dt className="sr-only">العنوان</dt>
-                <dd>
+          <address className="mt-5 not-italic text-sm text-white/65">
+            <ul className="space-y-4" aria-label="بيانات النشاط التجارية">
+              <li className="flex items-start gap-3">
+                <Icon
+                  name="home"
+                  className="mt-1 size-5 shrink-0 text-wood-400"
+                />
+                <div>
+                  <span className="sr-only">اسم النشاط: </span>
+                  <p className="font-bold text-white">{BUSINESS_NAME}</p>
+                  <p className="mt-1">الفئة: {BUSINESS_CATEGORY}</p>
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <Icon
+                  name="map-pin"
+                  className="mt-1 size-5 shrink-0 text-wood-400"
+                />
+                <div>
+                  <span className="sr-only">العنوان: </span>
                   <a
                     href={MAPS_URL}
                     target="_blank"
@@ -105,14 +108,15 @@ export function Footer() {
                   >
                     {ADDRESS}
                   </a>
-                </dd>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <Icon name="phone" className="size-5 shrink-0 text-wood-400" />
-              <div>
-                <dt className="sr-only">رقم التواصل</dt>
-                <dd>
+                </div>
+              </li>
+              <li className="flex items-center gap-3">
+                <Icon
+                  name="phone"
+                  className="size-5 shrink-0 text-wood-400"
+                />
+                <div>
+                  <span className="sr-only">رقم التواصل: </span>
                   <a
                     href={`tel:${PHONE_E164}`}
                     dir="ltr"
@@ -120,10 +124,10 @@ export function Footer() {
                   >
                     {PHONE_DISPLAY}
                   </a>
-                </dd>
-              </div>
-            </div>
-          </dl>
+                </div>
+              </li>
+            </ul>
+          </address>
         </div>
       </div>
 
