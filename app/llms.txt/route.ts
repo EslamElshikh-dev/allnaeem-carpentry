@@ -14,7 +14,7 @@ export function GET() {
   const serviceLinks = services
     .map(
       (service) =>
-        `- [${service.shortName}](${SITE_URL}/services/${service.slug}): ${service.cardDescription}`,
+        `- [${service.shortName}](${SITE_URL}/services/${service.slug}): ${service.shortDescription}`,
     )
     .join("\n");
 
