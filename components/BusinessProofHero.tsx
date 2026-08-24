@@ -19,6 +19,7 @@ export function BusinessProofHero() {
           alt={premises.alt}
           fill
           priority
+          unoptimized
           sizes="(max-width: 1024px) 92vw, 520px"
           className="object-cover"
           style={{ objectPosition: premises.objectPosition }}
@@ -50,6 +51,7 @@ export function BusinessProofHero() {
           src={vehicle.src}
           alt={vehicle.alt}
           fill
+          unoptimized
           sizes="(max-width: 640px) 58vw, 290px"
           className="object-cover transition duration-500 group-hover:scale-105"
           style={{ objectPosition: vehicle.objectPosition }}

@@ -47,6 +47,7 @@ export function BusinessProofShowcase() {
                   src={premises.src}
                   alt={premises.alt}
                   fill
+                  unoptimized
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 40vw"
                   className="object-cover transition duration-500 group-hover:scale-[1.03]"
                   style={{ objectPosition: premises.objectPosition }}
@@ -77,6 +78,7 @@ export function BusinessProofShowcase() {
                     src={image.src}
                     alt={image.alt}
                     fill
+                    unoptimized
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 28vw"
                     className="object-cover transition duration-500 group-hover:scale-[1.04]"
                     style={{ objectPosition: image.objectPosition }}
