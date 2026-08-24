@@ -77,6 +77,9 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="ar" dir="rtl">
+      <head>
+        <link rel="describedby" href="/llms.txt" type="text/markdown" />
+      </head>
       <body className="min-h-screen bg-sand-50 text-brand-950 antialiased">
         <a href="#main-content" className="skip-link">
           الانتقال إلى المحتوى الرئيسي
