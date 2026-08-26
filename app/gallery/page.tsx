@@ -5,7 +5,8 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Icon } from "@/components/Icon";
 import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Reveal";
-import { businessProofImages, socialProofImage } from "@/data/businessProof";
+import { businessProofImages } from "@/data/businessProof";
+import { featuredWorkImage, workProjectImages } from "@/data/workProjects";
 import {
   ADDRESS,
   BUSINESS_NAME,
@@ -17,37 +18,39 @@ import {
 } from "@/data/site";
 
 export const metadata: Metadata = {
-  title: "صور المقر واللافتة ومركبة العمل",
+  title: "صور أعمال النجارة والمقر",
   description:
-    "صور أصلية لمقر النعيم للمقاولات وأعمال النجارة في حي المصيف، ولافتة النشاط، ومركبة العمل المعلّمة في الرياض.",
+    "صور حقيقية من أعمال النعيم للمقاولات وأعمال النجارة في الرياض، تشمل خزائن ودواليب ومراحل تنفيذ، إلى جانب صور المقر واللافتة ومركبة العمل.",
   alternates: { canonical: "/gallery" },
   openGraph: {
-    title: `صور النشاط | ${BUSINESS_NAME}`,
+    title: `أعمال نجارة حقيقية وصور النشاط | ${BUSINESS_NAME}`,
     description:
-      "معرض صور أصلية للمقر واللافتة ومركبة العمل المعلّمة في الرياض.",
+      "نماذج منفذة وصور موثقة أثناء التجهيز، مع صور المقر واللافتة ومركبة العمل في الرياض.",
     url: `${SITE_URL}/gallery`,
     images: [
       {
-        url: socialProofImage,
-        width: 360,
-        height: 640,
-        alt: `صور أصلية من ${BUSINESS_NAME}`,
+        url: `${SITE_URL}${featuredWorkImage.src}`,
+        width: featuredWorkImage.width,
+        height: featuredWorkImage.height,
+        alt: featuredWorkImage.alt,
       },
     ],
   },
 };
 
+const galleryImages = [...workProjectImages, ...businessProofImages];
+
 const gallerySchema = {
   "@context": "https://schema.org",
   "@type": "ImageGallery",
   "@id": `${SITE_URL}/gallery#image-gallery`,
-  name: `صور ${BUSINESS_NAME}`,
+  name: `صور أعمال ${BUSINESS_NAME}`,
   description:
-    "صور أصلية للمقر الفعلي واللافتة ومركبة العمل المعلّمة في مدينة الرياض.",
+    "صور حقيقية لأعمال النجارة المنفذة ومراحل التجهيز والمقر والهوية الميدانية في الرياض.",
   url: `${SITE_URL}/gallery`,
   about: { "@id": `${SITE_URL}/#business` },
   inLanguage: "ar-SA",
-  image: businessProofImages.map((image, index) => ({
+  image: galleryImages.map((image, index) => ({
     "@type": "ImageObject",
     "@id": `${SITE_URL}/gallery#image-${index + 1}`,
     contentUrl: `${SITE_URL}${image.src}`,
@@ -100,17 +103,18 @@ export default function GalleryPage() {
             <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_0.72fr] lg:items-end">
               <div>
                 <span className="section-eyebrow section-eyebrow-inverted">
-                  صور أصلية وواقعية
+                  أعمال حقيقية وهوية موثقة
                 </span>
                 <h1 className="mt-5 max-w-4xl text-3xl font-black leading-[1.5] sm:text-4xl lg:text-5xl">
-                  صور المقر واللافتة ومركبة العمل
+                  صور أعمال النجارة والمقر
                 </h1>
                 <p className="mt-5 max-w-3xl text-sm leading-8 text-white/70 sm:text-base">
-                  توثيق بصري واقعي لنشاط {BUSINESS_NAME} في الرياض. تم تحسين
-                  الإضاءة والوضوح وضغط الملفات للويب فقط، دون تغيير محتوى الصور
-                  أو إضافة عناصر غير موجودة فيها.
+                  نماذج من الأعمال المنجزة، وصور موثقة من مراحل التنفيذ قبل
+                  التسليم النهائي، إلى جانب صور المقر واللافتة ومركبة العمل
+                  الخاصة بـ {BUSINESS_NAME} في الرياض.
                 </p>
               </div>
+
               <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-5 backdrop-blur">
                 <p className="text-xs font-black text-wood-300">العنوان المسجل</p>
                 <p className="mt-2 text-sm font-bold leading-7 text-white/85">
@@ -143,20 +147,21 @@ export default function GalleryPage() {
           <div className="container-shell">
             <Reveal>
               <div className="mx-auto max-w-3xl text-center">
-                <span className="section-eyebrow">معرض النشاط</span>
+                <span className="section-eyebrow">أعمال النجارة</span>
                 <h2 className="section-title text-brand-950">
-                  أدلة مرئية على هوية النشاط ووجوده الميداني
+                  نماذج منفذة وصور أثناء التنفيذ
                 </h2>
                 <p className="mt-5 text-base leading-8 text-slate-600 sm:text-lg">
-                  تشمل الصور المقر الفعلي واللافتة الثابتة ومركبة العمل التي
-                  تحمل اسم النشاط ورقم الهاتف المطابقين لبيانات الموقع.
+                  نعرض كل صورة بوصف مرحلتها الفعلية: الصور المكتملة تحمل شارة
+                  «عمل منجز»، والصور التي التُقطت قبل التسليم تحمل شارة «أثناء
+                  التنفيذ».
                 </p>
               </div>
             </Reveal>
 
             <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-              {businessProofImages.map((image, index) => (
-                <Reveal key={image.src} delay={(index % 3) * 80}>
+              {workProjectImages.map((image, index) => (
+                <Reveal key={image.src} delay={(index % 3) * 70}>
                   <figure className="group h-full overflow-hidden rounded-[1.6rem] border border-brand-900/10 bg-white shadow-lg shadow-brand-950/5 transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand-950/10">
                     <div className="relative aspect-[4/3] overflow-hidden bg-brand-950">
                       <Image
@@ -166,7 +171,64 @@ export default function GalleryPage() {
                         priority={index === 0}
                         unoptimized
                         sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-                        className="object-cover transition duration-500 group-hover:scale-[1.04]"
+                        className="object-cover transition duration-500 group-hover:scale-[1.035]"
+                        style={{ objectPosition: image.objectPosition }}
+                      />
+                      <div
+                        className="absolute inset-0 bg-gradient-to-t from-brand-950/70 via-transparent to-transparent"
+                        aria-hidden="true"
+                      />
+                      <div className="absolute inset-x-0 top-0 flex flex-wrap gap-2 p-4 text-[0.65rem] font-black">
+                        <span className="rounded-full bg-wood-300 px-3 py-1.5 text-brand-950">
+                          {image.status}
+                        </span>
+                        <span className="rounded-full border border-white/20 bg-brand-950/70 px-3 py-1.5 text-white backdrop-blur">
+                          {image.category}
+                        </span>
+                      </div>
+                    </div>
+                    <figcaption className="p-5">
+                      <h3 className="text-lg font-black text-brand-950">
+                        {image.title}
+                      </h3>
+                      <p className="mt-3 text-sm leading-7 text-slate-600">
+                        {image.description}
+                      </p>
+                    </figcaption>
+                  </figure>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section-space bg-white">
+          <div className="container-shell">
+            <Reveal>
+              <div className="mx-auto max-w-3xl text-center">
+                <span className="section-eyebrow">هوية النشاط الميدانية</span>
+                <h2 className="section-title text-brand-950">
+                  المقر واللافتة ومركبة العمل
+                </h2>
+                <p className="mt-5 text-base leading-8 text-slate-600 sm:text-lg">
+                  صور أصلية توضّح المقر الفعلي واللافتة ومركبة العمل، مع تطابق
+                  اسم النشاط ورقم التواصل مع بيانات الموقع.
+                </p>
+              </div>
+            </Reveal>
+
+            <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {businessProofImages.map((image, index) => (
+                <Reveal key={image.src} delay={(index % 3) * 70}>
+                  <figure className="group h-full overflow-hidden rounded-[1.6rem] border border-brand-900/10 bg-sand-50 shadow-lg shadow-brand-950/5 transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-brand-950/10">
+                    <div className="relative aspect-[4/3] overflow-hidden bg-brand-950">
+                      <Image
+                        src={image.src}
+                        alt={image.alt}
+                        fill
+                        unoptimized
+                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                        className="object-cover transition duration-500 group-hover:scale-[1.035]"
                         style={{ objectPosition: image.objectPosition }}
                       />
                       <div
@@ -195,7 +257,7 @@ export default function GalleryPage() {
                 <div>
                   <span className="inline-flex items-center gap-2 text-xs font-black text-wood-300">
                     <Icon name="shield" className="size-5" />
-                    صور النشاط الحقيقي
+                    صور حقيقية من النشاط
                   </span>
                   <h2 className="mt-3 text-2xl font-black leading-[1.5]">
                     تواصل لتنسيق المعاينة أو زيارة المقر

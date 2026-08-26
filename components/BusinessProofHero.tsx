@@ -2,87 +2,72 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Icon } from "@/components/Icon";
-import { businessProofImages } from "@/data/businessProof";
-
-const premises = businessProofImages[0];
-const vehicle = businessProofImages[2];
+import { featuredWorkImage, workProjectImages } from "@/data/workProjects";
 
 export function BusinessProofHero() {
+  const mirroredWardrobe = workProjectImages[1];
+
   return (
-    <div
-      className="relative mx-auto min-h-[31rem] w-full max-w-xl sm:min-h-[34rem]"
-      aria-label="صور أصلية للمقر ومركبة العمل"
-    >
-      <div className="absolute inset-x-0 top-0 h-[27rem] overflow-hidden rounded-[2rem] border border-white/15 bg-brand-900 shadow-2xl shadow-black/30 sm:inset-x-8 sm:h-[30rem]">
-        <Image
-          src={premises.src}
-          alt={premises.alt}
-          fill
-          priority
-          unoptimized
-          sizes="(max-width: 1024px) 92vw, 520px"
-          className="object-cover"
-          style={{ objectPosition: premises.objectPosition }}
-        />
-        <div
-          className="absolute inset-0 bg-gradient-to-t from-brand-950 via-brand-950/10 to-transparent"
-          aria-hidden="true"
-        />
-        <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-brand-950/70 px-3 py-1.5 text-[0.68rem] font-black text-wood-300 backdrop-blur">
-            <Icon name="shield" className="size-4" />
-            صورة أصلية للمقر الفعلي
-          </span>
-          <p className="mt-3 text-lg font-black text-white sm:text-xl">
-            لافتة النشاط في حي المصيف بالرياض
-          </p>
-          <p className="mt-1 text-xs leading-6 text-white/70">
-            الاسم ورقم التواصل متطابقان مع بيانات الموقع.
-          </p>
-        </div>
-      </div>
+    <div className="relative mx-auto w-full max-w-[34rem] lg:max-w-none">
+      <div className="absolute -inset-5 rounded-[2.2rem] bg-gradient-to-br from-wood-300/25 via-transparent to-brand-600/20 blur-2xl" aria-hidden="true" />
 
-      <Link
-        href="/gallery"
-        className="group absolute bottom-0 left-0 h-40 w-[62%] overflow-hidden rounded-[1.4rem] border-4 border-brand-950 bg-brand-900 shadow-2xl shadow-black/35 transition hover:-translate-y-1 sm:h-44 sm:w-[58%]"
-        aria-label="عرض صور مركبة العمل وبقية صور النشاط"
-      >
-        <Image
-          src={vehicle.src}
-          alt={vehicle.alt}
-          fill
-          unoptimized
-          sizes="(max-width: 640px) 58vw, 290px"
-          className="object-cover transition duration-500 group-hover:scale-105"
-          style={{ objectPosition: vehicle.objectPosition }}
-        />
-        <div
-          className="absolute inset-0 bg-gradient-to-t from-brand-950/90 via-transparent to-transparent"
-          aria-hidden="true"
-        />
-        <div className="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 p-3">
-          <span className="text-xs font-black text-white sm:text-sm">
-            مركبة العمل المعلّمة
-          </span>
-          <span className="grid size-8 shrink-0 place-items-center rounded-full bg-white text-brand-950 transition group-hover:-translate-x-1">
-            <Icon name="arrow-left" className="size-4" />
-          </span>
-        </div>
-      </Link>
-
-      <div className="absolute bottom-9 right-0 z-10 max-w-[11rem] rounded-2xl border border-white/15 bg-white/95 p-3 text-brand-950 shadow-2xl shadow-black/25 backdrop-blur sm:right-2 sm:max-w-[12rem] sm:p-4">
-        <div className="flex items-center gap-2">
-          <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-brand-950 text-wood-300">
-            <Icon name="check" className="size-5" />
-          </span>
-          <div>
-            <p className="text-[0.66rem] font-bold text-slate-500">
-              أدلة واقعية
-            </p>
-            <p className="mt-0.5 text-xs font-black leading-5">
-              مقر، لافتة ومركبة عمل
-            </p>
+      <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-brand-950 p-2.5 shadow-2xl shadow-black/25 sm:p-3">
+        <Link
+          href="/gallery"
+          className="group relative block aspect-[4/3] overflow-hidden rounded-[1.55rem] bg-brand-900"
+          aria-label="شاهد أعمال النعيم للمقاولات وأعمال النجارة الحقيقية"
+        >
+          <Image
+            src={featuredWorkImage.src}
+            alt={featuredWorkImage.alt}
+            fill
+            priority
+            unoptimized
+            sizes="(max-width: 1024px) 92vw, 48vw"
+            className="object-cover transition duration-700 group-hover:scale-[1.035]"
+            style={{ objectPosition: featuredWorkImage.objectPosition }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-950/90 via-brand-950/10 to-transparent" aria-hidden="true" />
+          <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+            <div className="flex flex-wrap items-center gap-2 text-[0.68rem] font-black">
+              <span className="rounded-full bg-wood-300 px-3 py-1.5 text-brand-950">{featuredWorkImage.status}</span>
+              <span className="rounded-full border border-white/20 bg-black/20 px-3 py-1.5 text-white backdrop-blur">{featuredWorkImage.category}</span>
+            </div>
+            <h2 className="mt-3 text-xl font-black leading-8 text-white sm:text-2xl">{featuredWorkImage.title}</h2>
           </div>
+        </Link>
+
+        <div className="mt-2.5 grid grid-cols-[0.82fr_1.18fr] gap-2.5 sm:mt-3 sm:gap-3">
+          <Link href="/gallery" className="group relative min-h-40 overflow-hidden rounded-[1.35rem] bg-brand-900 sm:min-h-44">
+            <Image
+              src={mirroredWardrobe.src}
+              alt={mirroredWardrobe.alt}
+              fill
+              unoptimized
+              sizes="(max-width: 1024px) 42vw, 20vw"
+              className="object-cover transition duration-700 group-hover:scale-[1.04]"
+              style={{ objectPosition: mirroredWardrobe.objectPosition }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-brand-950/85 via-transparent to-transparent" aria-hidden="true" />
+            <span className="absolute bottom-3 right-3 rounded-full bg-white/90 px-3 py-1 text-[0.63rem] font-black text-brand-950">عمل منجز</span>
+          </Link>
+
+          <Link
+            href="/gallery"
+            className="group flex min-h-40 flex-col justify-between rounded-[1.35rem] border border-white/10 bg-white/[0.07] p-4 text-white backdrop-blur transition hover:bg-white/[0.11] sm:min-h-44 sm:p-5"
+          >
+            <span className="grid size-10 place-items-center rounded-xl bg-wood-300 text-brand-950">
+              <Icon name="shield" className="size-5" />
+            </span>
+            <div>
+              <p className="text-xs font-black text-wood-300">صور حقيقية من مواقع العمل</p>
+              <p className="mt-2 text-sm font-extrabold leading-6 text-white">شاهد الأعمال المنجزة ومراحل التنفيذ كما هي على أرض الواقع.</p>
+              <span className="mt-3 inline-flex items-center gap-2 text-xs font-black text-white/80 transition group-hover:text-white">
+                شاهد أعمالنا الحقيقية
+                <Icon name="arrow-left" className="size-4" />
+              </span>
+            </div>
+          </Link>
         </div>
       </div>
     </div>

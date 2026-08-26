@@ -4,145 +4,90 @@ import Link from "next/link";
 import { Icon } from "@/components/Icon";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-import { businessProofImages } from "@/data/businessProof";
-
-const proofPoints = [
-  {
-    icon: "home" as const,
-    title: "مقر فعلي",
-    description: "لافتة ثابتة تحمل اسم النشاط ورقم التواصل في حي المصيف.",
-  },
-  {
-    icon: "shield" as const,
-    title: "هوية متطابقة",
-    description: "الاسم والهاتف الظاهران في الصور مطابقان لبيانات الموقع.",
-  },
-  {
-    icon: "hammer" as const,
-    title: "خدمة ميدانية",
-    description: "مركبة عمل معلّمة للتنقل وتقديم خدمات النجارة داخل الرياض.",
-  },
-];
+import { workProjectImages } from "@/data/workProjects";
 
 export function BusinessProofShowcase() {
-  const [premises, signage, vehicle] = businessProofImages;
+  const [featured, ...supporting] = workProjectImages;
 
   return (
-    <section className="section-space bg-white" id="business-proof">
+    <section className="section-space bg-white" aria-labelledby="real-work-heading">
       <div className="container-shell">
         <Reveal>
           <SectionHeading
-            eyebrow="صور أصلية للنشاط"
-            title="مقر واضح، لافتة مطابقة ومركبة عمل معلّمة"
-            description="اخترنا أقوى الصور التي توضّح وجود النشاط فعليًا في حي المصيف وتطابق الاسم ورقم التواصل. تم تحسين الإضاءة والوضوح وضغط الملفات للويب فقط دون تغيير محتوى الصور."
-            align="center"
+            eyebrow="أعمالنا الحقيقية"
+            title="نماذج منفذة وصور موثقة أثناء التجهيز"
+            description="صور واقعية من أعمال النجارة: نماذج مكتملة، إلى جانب توثيق صريح لمراحل التركيب والتجهيز قبل التسليم النهائي."
           />
         </Reveal>
 
-        <div className="mt-10 grid gap-5 lg:grid-cols-[1.25fr_0.75fr] lg:items-stretch">
+        <div className="mt-10 grid gap-5 lg:grid-cols-[1.18fr_0.82fr]">
           <Reveal>
-            <div className="grid min-h-[34rem] gap-4 sm:grid-cols-2 sm:grid-rows-2">
-              <figure className="group relative min-h-[22rem] overflow-hidden rounded-[1.8rem] border border-brand-900/10 bg-brand-950 shadow-xl shadow-brand-950/10 sm:row-span-2 sm:min-h-0">
+            <figure className="group h-full overflow-hidden rounded-[1.8rem] border border-brand-900/10 bg-sand-50 shadow-xl shadow-brand-950/5">
+              <div className="relative min-h-[23rem] overflow-hidden bg-brand-950 sm:min-h-[31rem]">
                 <Image
-                  src={premises.src}
-                  alt={premises.alt}
+                  src={featured.src}
+                  alt={featured.alt}
                   fill
+                  priority={false}
                   unoptimized
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 40vw"
-                  className="object-cover transition duration-500 group-hover:scale-[1.03]"
-                  style={{ objectPosition: premises.objectPosition }}
+                  sizes="(max-width: 1024px) 100vw, 58vw"
+                  className="object-cover transition duration-700 group-hover:scale-[1.025]"
+                  style={{ objectPosition: featured.objectPosition }}
                 />
-                <div
-                  className="absolute inset-0 bg-gradient-to-t from-brand-950 via-brand-950/10 to-transparent"
-                  aria-hidden="true"
-                />
-                <figcaption className="absolute inset-x-0 bottom-0 p-5 text-white">
-                  <span className="inline-flex rounded-full bg-wood-400 px-3 py-1 text-[0.66rem] font-black text-brand-950">
-                    {premises.category}
-                  </span>
-                  <h3 className="mt-3 text-lg font-black">
-                    {premises.title}
-                  </h3>
-                  <p className="mt-2 text-xs leading-6 text-white/70">
-                    {premises.description}
-                  </p>
-                </figcaption>
-              </figure>
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-950/85 via-transparent to-transparent" aria-hidden="true" />
+                <div className="absolute inset-x-0 bottom-0 p-5 text-white sm:p-7">
+                  <div className="flex flex-wrap gap-2 text-[0.68rem] font-black">
+                    <span className="rounded-full bg-wood-300 px-3 py-1.5 text-brand-950">{featured.status}</span>
+                    <span className="rounded-full border border-white/20 bg-black/20 px-3 py-1.5 backdrop-blur">{featured.category}</span>
+                  </div>
+                  <h3 className="mt-3 text-xl font-black sm:text-2xl">{featured.title}</h3>
+                  <p className="mt-2 max-w-2xl text-sm leading-7 text-white/75">{featured.description}</p>
+                </div>
+              </div>
+            </figure>
+          </Reveal>
 
-              {[vehicle, signage].map((image) => (
-                <figure
-                  key={image.src}
-                  className="group relative min-h-[16rem] overflow-hidden rounded-[1.6rem] border border-brand-900/10 bg-brand-950 shadow-lg shadow-brand-950/10 sm:min-h-0"
-                >
-                  <Image
-                    src={image.src}
-                    alt={image.alt}
-                    fill
-                    unoptimized
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 28vw"
-                    className="object-cover transition duration-500 group-hover:scale-[1.04]"
-                    style={{ objectPosition: image.objectPosition }}
-                  />
-                  <div
-                    className="absolute inset-0 bg-gradient-to-t from-brand-950/95 via-transparent to-transparent"
-                    aria-hidden="true"
-                  />
-                  <figcaption className="absolute inset-x-0 bottom-0 p-4 text-white">
-                    <span className="text-[0.66rem] font-black text-wood-300">
-                      {image.category}
-                    </span>
-                    <h3 className="mt-1 text-sm font-black sm:text-base">
-                      {image.title}
-                    </h3>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-1">
+            {supporting.slice(0, 3).map((image, index) => (
+              <Reveal key={image.src} delay={(index + 1) * 70}>
+                <figure className="group grid h-full grid-cols-[7.5rem_1fr] overflow-hidden rounded-[1.45rem] border border-brand-900/10 bg-sand-50 shadow-lg shadow-brand-950/5 sm:grid-cols-1 lg:grid-cols-[8rem_1fr]">
+                  <div className="relative min-h-40 overflow-hidden bg-brand-950 sm:min-h-48 lg:min-h-40">
+                    <Image
+                      src={image.src}
+                      alt={image.alt}
+                      fill
+                      unoptimized
+                      sizes="(max-width: 640px) 34vw, (max-width: 1024px) 50vw, 16vw"
+                      className="object-cover transition duration-700 group-hover:scale-[1.04]"
+                      style={{ objectPosition: image.objectPosition }}
+                    />
+                  </div>
+                  <figcaption className="flex flex-col justify-center p-4 sm:p-5">
+                    <div className="flex flex-wrap gap-2 text-[0.62rem] font-black">
+                      <span className="rounded-full bg-brand-100 px-2.5 py-1 text-brand-800">{image.category}</span>
+                      <span className="rounded-full bg-white px-2.5 py-1 text-slate-600">{image.status}</span>
+                    </div>
+                    <h3 className="mt-3 text-base font-black leading-7 text-brand-950">{image.title}</h3>
+                    <p className="mt-1 line-clamp-2 text-xs leading-6 text-slate-600">{image.description}</p>
                   </figcaption>
                 </figure>
-              ))}
-            </div>
-          </Reveal>
-
-          <Reveal delay={120}>
-            <div className="flex h-full flex-col rounded-[1.8rem] bg-brand-950 p-6 text-white shadow-2xl shadow-brand-950/15 sm:p-8">
-              <span className="grid size-14 place-items-center rounded-2xl bg-white/10 text-wood-300">
-                <Icon name="shield" className="size-7" />
-              </span>
-              <h2 className="mt-6 text-2xl font-black leading-[1.55] sm:text-3xl">
-                معلومات مرئية تدعم تطابق بيانات النشاط
-              </h2>
-              <p className="mt-4 text-sm leading-8 text-white/65">
-                الصور الحقيقية للمقر واللافتة ومركبة العمل تساعد العميل ومحركات
-                البحث على ربط اسم النشاط ورقم الهاتف والعنوان بالوجود الفعلي
-                للنشاط في الرياض.
-              </p>
-
-              <div className="mt-7 grid gap-3">
-                {proofPoints.map((point) => (
-                  <div
-                    key={point.title}
-                    className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/5 p-4"
-                  >
-                    <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-wood-400 text-brand-950">
-                      <Icon name={point.icon} className="size-5" />
-                    </span>
-                    <div>
-                      <h3 className="text-sm font-black">{point.title}</h3>
-                      <p className="mt-1 text-xs leading-6 text-white/60">
-                        {point.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <Link
-                href="/gallery"
-                className="mt-7 inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-wood-400 px-5 text-sm font-black text-brand-950 transition hover:-translate-y-0.5 hover:bg-wood-300"
-              >
-                عرض صور النشاط بالحجم الكامل
-                <Icon name="arrow-left" className="size-5" />
-              </Link>
-            </div>
-          </Reveal>
+              </Reveal>
+            ))}
+          </div>
         </div>
+
+        <Reveal className="mt-8" delay={120}>
+          <div className="flex flex-col items-center justify-between gap-4 rounded-[1.5rem] bg-brand-950 p-5 text-center text-white sm:flex-row sm:text-right">
+            <div>
+              <p className="text-sm font-black text-wood-300">المعرض الكامل</p>
+              <p className="mt-1 text-sm leading-7 text-white/70">يشمل الأعمال المنفذة، مراحل التجهيز، وصور المقر والهوية الميدانية.</p>
+            </div>
+            <Link href="/gallery" className="button-primary min-h-12 shrink-0 px-5 text-sm">
+              <Icon name="sparkles" className="size-5" />
+              شاهد جميع الصور
+            </Link>
+          </div>
+        </Reveal>
       </div>
     </section>
   );
