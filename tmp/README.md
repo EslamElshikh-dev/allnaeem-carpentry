@@ -1,1 +1,0 @@
-Temporary conversion helper; will be removed after WebP replacement.
