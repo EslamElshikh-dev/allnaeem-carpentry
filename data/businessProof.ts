@@ -11,9 +11,9 @@ export type BusinessProofImage = {
 
 export const businessProofImages = [
   {
-    src: "/images/business-proof/premises-signage.avif",
-    width: 360,
-    height: 640,
+    src: "/images/business-proof/premises-signage.webp",
+    width: 180,
+    height: 320,
     alt: "المقر الفعلي للنعيم للمقاولات وأعمال النجارة ولافتة النشاط في حي المصيف بالرياض",
     title: "المقر الفعلي واللافتة",
     description:
@@ -22,9 +22,9 @@ export const businessProofImages = [
     objectPosition: "50% 34%",
   },
   {
-    src: "/images/business-proof/signage-detail.avif",
-    width: 360,
-    height: 640,
+    src: "/images/business-proof/signage-detail.webp",
+    width: 180,
+    height: 320,
     alt: "صورة قريبة للافتة النعيم للمقاولات وأعمال النجارة ورقم الهاتف 0570210104",
     title: "تطابق الاسم ورقم التواصل",
     description:
@@ -33,9 +33,9 @@ export const businessProofImages = [
     objectPosition: "50% 28%",
   },
   {
-    src: "/images/business-proof/work-vehicle.avif",
-    width: 360,
-    height: 640,
+    src: "/images/business-proof/work-vehicle.webp",
+    width: 180,
+    height: 320,
     alt: "مركبة عمل النعيم للمقاولات وأعمال النجارة تحمل اسم النشاط ورقم التواصل في الرياض",
     title: "مركبة العمل المعلّمة",
     description:
@@ -46,4 +46,4 @@ export const businessProofImages = [
 ] as const satisfies readonly BusinessProofImage[];
 
 export const socialProofImage =
-  "/images/business-proof/premises-signage.avif";
+  "/images/business-proof/premises-signage.webp";
