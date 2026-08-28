@@ -1,66 +1,48 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-
 import "@fontsource-variable/noto-sans-arabic/wght.css";
 import "./globals.css";
-
 import { FloatingButtons } from "@/components/FloatingButtons";
 import { Footer } from "@/components/Footer";
 import { Navbar } from "@/components/Navbar";
-import { socialProofImage } from "@/data/businessProof";
-import {
-  BUSINESS_DESCRIPTION,
-  BUSINESS_NAME,
-  SITE_URL,
-} from "@/data/site";
-
-const googleVerification =
-  process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ??
-  "RhoDv6mIF2DsPd84eCLRiv9HGlPI-viiXPcJIJGafDM";
+import { BUSINESS_DESCRIPTION, BUSINESS_NAME, SITE_URL } from "@/data/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   applicationName: BUSINESS_NAME,
   title: {
-    default: `${BUSINESS_NAME} | نجار في الرياض`,
+    default: "دهانات ديكورات ورق جدران | أفضل مقاول دهانات وورشة دهانات بالرياض",
     template: `%s | ${BUSINESS_NAME}`,
   },
   description: BUSINESS_DESCRIPTION,
   keywords: [
-    "نجار في الرياض",
-    "نجارة الرياض",
-    "تصليح نجارة بالرياض",
-    "تفصيل دواليب الرياض",
-    "تفصيل خزائن الرياض",
-    "نجار حي المصيف",
+    "مقاول دهانات بالرياض",
+    "دهانات بالرياض",
+    "ورشة دهانات بالرياض",
+    "دهانات داخلية بالرياض",
+    "دهانات خارجية بالرياض",
+    "تركيب ورق جدران بالرياض",
+    "دهانات ديكورية بالرياض",
+    "دهان فلل وشقق بالرياض",
     BUSINESS_NAME,
   ],
   authors: [{ name: BUSINESS_NAME, url: SITE_URL }],
   creator: BUSINESS_NAME,
   publisher: BUSINESS_NAME,
-  category: "خدمات النجارة والمقاولات",
+  category: "دهانات وديكورات وورق جدران",
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "ar_SA",
     url: SITE_URL,
     siteName: BUSINESS_NAME,
-    title: `${BUSINESS_NAME} | نجار في الرياض`,
+    title: "دهانات ديكورات ورق جدران | أفضل مقاول دهانات وورشة دهانات بالرياض",
     description: BUSINESS_DESCRIPTION,
-    images: [
-      {
-        url: socialProofImage,
-        width: 360,
-        height: 640,
-        alt: `المقر واللافتة ومركبة العمل التابعة لـ ${BUSINESS_NAME}`,
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${BUSINESS_NAME} | نجار في الرياض`,
+    title: "دهانات ديكورات ورق جدران | مقاول دهانات بالرياض",
     description: BUSINESS_DESCRIPTION,
-    images: [socialProofImage],
   },
   robots: {
     index: true,
@@ -73,7 +55,6 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
-  verification: { google: googleVerification },
   manifest: "/manifest.webmanifest",
 };
 
@@ -87,13 +68,8 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="ar" dir="rtl">
-      <head>
-        <link rel="describedby" href="/llms.txt" type="text/markdown" />
-      </head>
       <body className="min-h-screen bg-sand-50 text-brand-950 antialiased">
-        <a href="#main-content" className="skip-link">
-          الانتقال إلى المحتوى الرئيسي
-        </a>
+        <a href="#main-content" className="skip-link">الانتقال إلى المحتوى الرئيسي</a>
         <Navbar />
         <div id="main-content">{children}</div>
         <Footer />

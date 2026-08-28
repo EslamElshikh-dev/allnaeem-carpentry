@@ -1,8 +1,5 @@
 import type { Service } from "@/data/service-types";
-import { carpentryRepair } from "@/data/services/carpentry-repair";
-import { customCabinets } from "@/data/services/custom-cabinets";
-import { customWardrobes } from "@/data/services/custom-wardrobes";
-import { generalCarpentry } from "@/data/services/general-carpentry";
+import { paintServices } from "@/data/services/paint-services";
 
 export type {
   Service,
@@ -11,12 +8,7 @@ export type {
   ServiceSection,
 } from "@/data/service-types";
 
-export const services: Service[] = [
-  generalCarpentry,
-  carpentryRepair,
-  customWardrobes,
-  customCabinets,
-];
+export const services: Service[] = paintServices;
 
 export const serviceBySlug = new Map(
   services.map((service) => [service.slug, service]),

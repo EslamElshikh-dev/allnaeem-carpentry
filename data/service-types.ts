@@ -2,7 +2,11 @@ export type ServiceIconName =
   | "hammer"
   | "repair"
   | "wardrobe"
-  | "cabinet";
+  | "cabinet"
+  | "sparkles"
+  | "ruler"
+  | "shield"
+  | "home";
 
 export type ServiceFaq = {
   question: string;

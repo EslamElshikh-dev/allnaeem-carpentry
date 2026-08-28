@@ -4,7 +4,7 @@ import { BUSINESS_DESCRIPTION, BUSINESS_NAME } from "@/data/site";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: BUSINESS_NAME,
-    short_name: "النعيم للنجارة",
+    short_name: "دهانات ديكورات",
     description: BUSINESS_DESCRIPTION,
     start_url: "/",
     display: "standalone",

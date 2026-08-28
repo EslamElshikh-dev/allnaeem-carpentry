@@ -1,15 +1,18 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-
 import { Icon } from "@/components/Icon";
 import { BUSINESS_NAME, buildWhatsAppUrl } from "@/data/site";
 
 const serviceOptions = [
-  "نجارة عامة",
-  "تصليح نجارة",
-  "تفصيل دواليب",
-  "تفصيل خزائن",
+  "دهانات داخلية",
+  "دهانات خارجية وواجهات",
+  "تركيب ورق جدران",
+  "دهانات ديكورية",
+  "معجون وتجهيز الجدران",
+  "دهان فلل وشقق",
+  "دهان مكاتب ومحلات",
+  "تجديد وصيانة الدهانات",
   "استفسار آخر",
 ] as const;
 
@@ -20,26 +23,23 @@ type ContactFormProps = {
 };
 
 export function ContactForm({
-  initialService = "نجارة عامة",
+  initialService = "دهانات داخلية",
   title = "أرسل تفاصيل طلبك عبر واتساب",
-  description = "اكتب المعلومات الأساسية وسنجهز لك رسالة مرتبة لفتحها مباشرة في واتساب.",
+  description = "اكتب المعلومات الأساسية وسنجهز رسالة منظمة لفتحها مباشرة في واتساب.",
 }: ContactFormProps) {
   const [status, setStatus] = useState("");
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
     const form = new FormData(event.currentTarget);
     const name = String(form.get("name") || "").trim();
     const phone = String(form.get("phone") || "").trim();
     const service = String(form.get("service") || "").trim();
     const details = String(form.get("details") || "").trim();
-
     if (!name || !phone || !service || !details) {
       setStatus("يرجى تعبئة جميع الحقول المطلوبة قبل الإرسال.");
       return;
     }
-
     const message = [
       `السلام عليكم، أرغب في طلب خدمة من ${BUSINESS_NAME}.`,
       "",
@@ -48,7 +48,6 @@ export function ContactForm({
       `الخدمة المطلوبة: ${service}`,
       `التفاصيل: ${details}`,
     ].join("\n");
-
     setStatus("تم تجهيز الرسالة، سيتم فتح واتساب لإكمال الإرسال.");
     window.open(buildWhatsAppUrl(message), "_blank", "noopener,noreferrer");
   }
@@ -56,89 +55,19 @@ export function ContactForm({
   return (
     <div className="rounded-[1.75rem] border border-brand-900/10 bg-white p-5 shadow-xl shadow-brand-950/10 sm:p-7">
       <div className="mb-6">
-        <span className="mb-4 grid size-12 place-items-center rounded-2xl bg-brand-950 text-white shadow-lg shadow-brand-950/20">
-          <Icon name="send" className="size-5" />
-        </span>
+        <span className="mb-4 grid size-12 place-items-center rounded-2xl bg-brand-950 text-white"><Icon name="send" className="size-5" /></span>
         <h3 className="text-xl font-black text-brand-950 sm:text-2xl">{title}</h3>
         <p className="mt-3 text-sm leading-7 text-slate-600">{description}</p>
       </div>
-
-      <form
-        onSubmit={handleSubmit}
-        className="grid gap-4"
-        noValidate
-        toolname="prepare_carpentry_service_request"
-        tooldescription="يجهز طلب خدمة نجارة من النعيم للمقاولات وأعمال النجارة، ثم يفتح رسالة واتساب منظمة ليقوم المستخدم بمراجعتها وإرسالها."
-      >
+      <form onSubmit={handleSubmit} className="grid gap-4" noValidate>
         <div className="grid gap-4 sm:grid-cols-2">
-          <label className="form-field">
-            <span>الاسم الكامل</span>
-            <input
-              type="text"
-              name="name"
-              autoComplete="name"
-              required
-              placeholder="اكتب اسمك"
-              toolparamdescription="الاسم الكامل للعميل الذي يطلب خدمة النجارة."
-            />
-          </label>
-
-          <label className="form-field">
-            <span>رقم الجوال</span>
-            <input
-              type="tel"
-              name="phone"
-              autoComplete="tel"
-              inputMode="tel"
-              dir="ltr"
-              required
-              placeholder="05xxxxxxxx"
-              toolparamdescription="رقم جوال العميل داخل السعودية للتواصل بشأن الطلب."
-            />
-          </label>
+          <label className="form-field"><span>الاسم الكامل</span><input type="text" name="name" autoComplete="name" required placeholder="اكتب اسمك" /></label>
+          <label className="form-field"><span>رقم الجوال</span><input type="tel" name="phone" autoComplete="tel" inputMode="tel" dir="ltr" required placeholder="05xxxxxxxx" /></label>
         </div>
-
-        <label className="form-field">
-          <span>الخدمة المطلوبة</span>
-          <select
-            name="service"
-            defaultValue={initialService}
-            required
-            toolparamdescription="نوع خدمة النجارة التي يحتاجها العميل."
-          >
-            {serviceOptions.map((service) => (
-              <option key={service} value={service}>
-                {service}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className="form-field">
-          <span>تفاصيل الطلب</span>
-          <textarea
-            name="details"
-            required
-            rows={5}
-            placeholder="اذكر نوع العمل، الحي، والمقاسات التقريبية إن وجدت"
-            toolparamdescription="وصف العمل المطلوب، وحي العميل في الرياض، والمقاسات أو الصور المتاحة."
-          />
-        </label>
-
-        <button type="submit" className="button-primary mt-1 min-h-13 w-full">
-          <Icon name="whatsapp" className="size-6" />
-          إرسال الطلب عبر واتساب
-        </button>
-
-        <p
-          role="status"
-          aria-live="polite"
-          className={`min-h-6 text-center text-xs font-bold ${
-            status.startsWith("يرجى") ? "text-red-700" : "text-brand-700"
-          }`}
-        >
-          {status}
-        </p>
+        <label className="form-field"><span>الخدمة المطلوبة</span><select name="service" defaultValue={initialService} required>{serviceOptions.map((service) => <option key={service} value={service}>{service}</option>)}</select></label>
+        <label className="form-field"><span>تفاصيل الطلب</span><textarea name="details" required rows={5} placeholder="اذكر نوع العمل، الحي، مساحة الجدران أو عدد الغرف وحالة السطح" /></label>
+        <button type="submit" className="button-primary mt-1 min-h-13 w-full"><Icon name="whatsapp" className="size-6" />إرسال الطلب عبر واتساب</button>
+        <p role="status" aria-live="polite" className={`min-h-6 text-center text-xs font-bold ${status.startsWith("يرجى") ? "text-red-700" : "text-brand-700"}`}>{status}</p>
       </form>
     </div>
   );
