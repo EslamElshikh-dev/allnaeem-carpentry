@@ -56,6 +56,11 @@ export function Footer() {
               </Link>
             </li>
             <li>
+              <Link className="footer-link" href="/blog">
+                مدونة النجارة
+              </Link>
+            </li>
+            <li>
               <Link className="footer-link" href="/gallery">
                 صور النشاط
               </Link>

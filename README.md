@@ -11,10 +11,14 @@ allnaeem-carpentry/
 ├── .github/workflows/quality.yml
 ├── app/
 │   ├── about/page.tsx
+│   ├── blog/
+│   │   ├── [slug]/page.tsx
+│   │   └── page.tsx
 │   ├── contact/page.tsx
 │   ├── services/[slug]/page.tsx
 │   ├── styles/
 │   │   ├── base.css
+│   │   ├── blog.css
 │   │   ├── responsive.css
 │   │   ├── ui.css
 │   │   └── visuals.css
@@ -28,6 +32,8 @@ allnaeem-carpentry/
 │   └── sitemap.ts
 ├── components/
 │   ├── BrandLogo.tsx
+│   ├── BlogCard.tsx
+│   ├── BlogPreview.tsx
 │   ├── Breadcrumbs.tsx
 │   ├── ContactForm.tsx
 │   ├── FloatingButtons.tsx
@@ -41,6 +47,7 @@ allnaeem-carpentry/
 │   ├── ServiceCard.tsx
 │   └── ServicePage.tsx
 ├── data/
+│   ├── blog.ts
 │   ├── services/
 │   │   ├── carpentry-repair.ts
 │   │   ├── custom-cabinets.ts
@@ -61,6 +68,8 @@ allnaeem-carpentry/
 - `/services/custom-cabinets` تفصيل الخزائن.
 - `/about` من نحن.
 - `/contact` تواصل معنا.
+- `/blog` مدونة النجارة وتفصيل الخزائن.
+- `/blog/[slug]` عشر مقالات مترابطة محسنة لمحركات البحث.
 - `/sitemap.xml` خريطة الموقع.
 - `/robots.txt` تعليمات الزحف.
 
@@ -97,6 +106,7 @@ NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION=
 
 - الصفحة الرئيسية: `LocalBusiness` + `WebSite`.
 - صفحات الخدمات: `Service` + `FAQPage` + `BreadcrumbList`.
+- المدونة: `CollectionPage` + `ItemList`، وكل مقال يتضمن `BlogPosting` + `FAQPage` + `BreadcrumbList`.
 - صفحات من نحن والتواصل: `AboutPage` و`ContactPage`.
 - ملفات ديناميكية: `sitemap.ts` و`robots.ts` و`manifest.ts`.
 - لا توجد أسعار أو ساعات أو سنوات خبرة أو ادعاءات غير موثقة داخل السكيما.

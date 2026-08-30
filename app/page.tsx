@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { BusinessProofHero } from "@/components/BusinessProofHero";
 import { BusinessProofShowcase } from "@/components/BusinessProofShowcase";
+import { BlogPreview } from "@/components/BlogPreview";
 import { ContactForm } from "@/components/ContactForm";
 import { Icon } from "@/components/Icon";
 import { JsonLd } from "@/components/JsonLd";
@@ -364,6 +365,8 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        <BlogPreview />
 
         <section className="section-space bg-sand-50" id="location">
           <div className="container-shell">

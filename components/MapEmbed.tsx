@@ -22,8 +22,11 @@ export function MapEmbed({ compact = false }: MapEmbedProps) {
     }
 
     if (!("IntersectionObserver" in window)) {
-      setShouldLoadMap(true);
-      return;
+      const fallbackTimer = globalThis.setTimeout(
+        () => setShouldLoadMap(true),
+        0,
+      );
+      return () => globalThis.clearTimeout(fallbackTimer);
     }
 
     const observer = new IntersectionObserver(

@@ -6,6 +6,7 @@ import {
   PHONE_DISPLAY,
   SITE_URL,
 } from "@/data/site";
+import { blogPosts } from "@/data/blog";
 import { services } from "@/data/services";
 
 export const dynamic = "force-static";
@@ -15,6 +16,13 @@ export function GET() {
     .map(
       (service) =>
         `- [${service.shortName}](${SITE_URL}/services/${service.slug}): ${service.shortDescription}`,
+    )
+    .join("\n");
+
+  const blogLinks = blogPosts
+    .map(
+      (post) =>
+        `- [${post.title}](${SITE_URL}/blog/${post.slug}): ${post.excerpt}`,
     )
     .join("\n");
 
@@ -35,10 +43,15 @@ export function GET() {
 - [صور النشاط](${SITE_URL}/gallery): صور أصلية للمقر واللافتة الثابتة ومركبة العمل المعلّمة.
 - [من نحن](${SITE_URL}/about): منهج العمل وبيانات المؤسسة المحلية.
 - [تواصل معنا](${SITE_URL}/contact): بيانات الاتصال والخريطة ونموذج طلب الخدمة.
+- [مدونة النجارة](${SITE_URL}/blog): أدلة اختيار النجار وتفصيل الخزائن والخامات والتكلفة والصيانة في الرياض.
 
 ## خدمات النجارة
 
 ${serviceLinks}
+
+## أدلة النجارة وتفصيل الخزائن
+
+${blogLinks}
 
 ## ملفات الفهرسة
 
