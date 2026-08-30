@@ -17,6 +17,12 @@ import {
   SITE_URL,
   buildWhatsAppUrl,
 } from "@/data/site";
+import {
+  BUSINESS_ID,
+  createBreadcrumbSchema,
+  createSchemaGraph,
+  createWebPageSchema,
+} from "@/data/structured-data";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
@@ -67,6 +73,23 @@ const formatDate = (date: string) =>
     timeZone: "UTC",
   }).format(new Date(`${date}T00:00:00Z`));
 
+const countPostWords = (post: (typeof blogPosts)[number]) =>
+  [
+    post.title,
+    post.description,
+    ...post.introduction,
+    ...post.takeaways,
+    ...post.sections.flatMap((section) => [
+      section.heading,
+      ...section.paragraphs,
+      ...(section.bullets ?? []),
+    ]),
+    ...post.faqs.flatMap((faq) => [faq.question, faq.answer]),
+  ]
+    .join(" ")
+    .trim()
+    .split(/\s+/u).length;
+
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
   const post = blogPostBySlug.get(slug);
@@ -74,57 +97,78 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   const relatedPosts = getRelatedPosts(post);
   const pageUrl = `${SITE_URL}/blog/${post.slug}`;
+  const pageId = `${pageUrl}#webpage`;
+  const articleId = `${pageUrl}#article`;
+  const breadcrumbId = `${pageUrl}#breadcrumb`;
+  const imageUrl = `${SITE_URL}${post.image}`;
   const serviceUrl = `/services/${post.serviceSlug}`;
   const whatsappMessage = `السلام عليكم، قرأت مقال ${post.shortTitle} وأرغب في الاستفسار عن خدمة النجارة في الرياض.`;
 
   const articleSchema = {
-    "@context": "https://schema.org",
     "@type": "BlogPosting",
-    "@id": `${pageUrl}/#article`,
+    "@id": articleId,
     headline: post.title,
     description: post.description,
-    image: `${SITE_URL}${post.image}`,
+    image: {
+      "@type": "ImageObject",
+      "@id": `${pageUrl}#primaryimage`,
+      url: imageUrl,
+      contentUrl: imageUrl,
+      caption: post.imageAlt,
+      representativeOfPage: true,
+    },
+    thumbnailUrl: imageUrl,
     datePublished: post.published,
     dateModified: post.modified,
     inLanguage: "ar-SA",
-    mainEntityOfPage: { "@type": "WebPage", "@id": pageUrl },
-    author: { "@type": "Organization", name: BUSINESS_NAME, url: SITE_URL },
-    publisher: { "@id": `${SITE_URL}/#business` },
-    about: post.primaryKeyword,
+    mainEntityOfPage: { "@id": pageId },
+    author: {
+      "@type": "Organization",
+      "@id": BUSINESS_ID,
+      name: BUSINESS_NAME,
+      url: SITE_URL,
+    },
+    publisher: {
+      "@type": "Organization",
+      "@id": BUSINESS_ID,
+      name: BUSINESS_NAME,
+      url: SITE_URL,
+      logo: { "@id": `${SITE_URL}/#logo` },
+    },
+    isPartOf: { "@id": `${SITE_URL}/blog#blog` },
+    isAccessibleForFree: true,
+    wordCount: countPostWords(post),
+    about: { "@type": "Thing", name: post.primaryKeyword },
     keywords: post.keywords.join(", "),
     articleSection: post.category,
   };
 
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "الرئيسية", item: SITE_URL },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "مدونة النجارة",
-        item: `${SITE_URL}/blog`,
-      },
-      { "@type": "ListItem", position: 3, name: post.shortTitle, item: pageUrl },
+  const breadcrumbSchema = createBreadcrumbSchema(
+    [
+      { name: "الرئيسية", url: SITE_URL },
+      { name: "مدونة النجارة", url: `${SITE_URL}/blog` },
+      { name: post.shortTitle, url: pageUrl },
     ],
-  };
+    breadcrumbId,
+  );
 
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: post.faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: { "@type": "Answer", text: faq.answer },
-    })),
-  };
+  const structuredData = createSchemaGraph([
+    createWebPageSchema({
+      id: pageId,
+      url: pageUrl,
+      name: post.title,
+      description: post.description,
+      breadcrumbId,
+      aboutId: articleId,
+      primaryImageUrl: imageUrl,
+    }),
+    articleSchema,
+    breadcrumbSchema,
+  ]);
 
   return (
     <main>
-      <JsonLd data={articleSchema} />
-      <JsonLd data={breadcrumbSchema} />
-      <JsonLd data={faqSchema} />
+      <JsonLd data={structuredData} />
 
       <article>
         <header className="article-hero">
@@ -151,6 +195,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                   {post.excerpt}
                 </p>
                 <div className="mt-6 flex flex-wrap gap-x-5 gap-y-2 text-xs font-bold text-white/55">
+                  <span>إعداد: {BUSINESS_NAME}</span>
                   <span>نشر: {formatDate(post.published)}</span>
                   <span>آخر تحديث: {formatDate(post.modified)}</span>
                 </div>

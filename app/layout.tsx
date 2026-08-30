@@ -6,6 +6,7 @@ import "./globals.css";
 
 import { FloatingButtons } from "@/components/FloatingButtons";
 import { Footer } from "@/components/Footer";
+import { JsonLd } from "@/components/JsonLd";
 import { Navbar } from "@/components/Navbar";
 import { socialProofImage } from "@/data/businessProof";
 import {
@@ -13,6 +14,7 @@ import {
   BUSINESS_NAME,
   SITE_URL,
 } from "@/data/site";
+import { sitewideSchema } from "@/data/structured-data";
 
 const googleVerification =
   process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ??
@@ -94,6 +96,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <link rel="describedby" href="/llms.txt" type="text/markdown" />
       </head>
       <body className="min-h-screen bg-sand-50 text-brand-950 antialiased">
+        <JsonLd data={sitewideSchema} />
         <a href="#main-content" className="skip-link">
           الانتقال إلى المحتوى الرئيسي
         </a>

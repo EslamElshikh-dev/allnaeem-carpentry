@@ -7,11 +7,18 @@ import { Icon } from "@/components/Icon";
 import { JsonLd } from "@/components/JsonLd";
 import { blogPosts } from "@/data/blog";
 import { BUSINESS_NAME, SITE_URL } from "@/data/site";
+import {
+  createBreadcrumbSchema,
+  createSchemaGraph,
+  createWebPageSchema,
+} from "@/data/structured-data";
+
+const blogDescription =
+  "مدونة النعيم للنجارة: أدلة احترافية عن أفضل نجار بالرياض، تفصيل الخزائن والدواليب، الخامات، التكلفة، الصيانة، وخدمات النجارة في حي المصيف وشمال الرياض.";
 
 export const metadata: Metadata = {
   title: { absolute: `مدونة النجارة وتفصيل الخزائن بالرياض | ${BUSINESS_NAME}` },
-  description:
-    "مدونة النعيم للنجارة: أدلة احترافية عن أفضل نجار بالرياض، تفصيل الخزائن والدواليب، الخامات، التكلفة، الصيانة، وخدمات النجارة في حي المصيف وشمال الرياض.",
+  description: blogDescription,
   keywords: [
     "مدونة نجارة",
     "أفضل نجار بالرياض",
@@ -36,49 +43,80 @@ export const metadata: Metadata = {
   },
 };
 
-const collectionSchema = {
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "@id": `${SITE_URL}/blog/#collection`,
+const blogUrl = `${SITE_URL}/blog`;
+const pageId = `${blogUrl}#webpage`;
+const blogId = `${blogUrl}#blog`;
+const postsId = `${blogUrl}#posts`;
+const breadcrumbId = `${blogUrl}#breadcrumb`;
+
+const blogSchema = {
+  "@type": "Blog",
+  "@id": blogId,
   url: `${SITE_URL}/blog`,
   name: "مدونة النجارة وتفصيل الخزائن بالرياض",
-  description: metadata.description,
+  description: blogDescription,
   inLanguage: "ar-SA",
   isPartOf: { "@id": `${SITE_URL}/#website` },
-  about: ["النجارة", "تفصيل الخزائن", "تفصيل الدواليب", "صيانة النجارة"],
-  mainEntity: {
-    "@type": "ItemList",
-    numberOfItems: blogPosts.length,
-    itemListElement: blogPosts.map((post, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      url: `${SITE_URL}/blog/${post.slug}`,
-      name: post.title,
-    })),
-  },
+  publisher: { "@id": `${SITE_URL}/#business` },
+  about: ["النجارة", "تفصيل الخزائن", "تفصيل الدواليب", "صيانة النجارة"].map(
+    (name) => ({ "@type": "Thing", name }),
+  ),
+  blogPost: blogPosts.map((post) => ({
+    "@id": `${SITE_URL}/blog/${post.slug}#article`,
+  })),
 };
 
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    { "@type": "ListItem", position: 1, name: "الرئيسية", item: SITE_URL },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "مدونة النجارة",
-      item: `${SITE_URL}/blog`,
-    },
-  ],
+const postsSchema = {
+  "@type": "ItemList",
+  "@id": postsId,
+  name: "مقالات مدونة النجارة",
+  numberOfItems: blogPosts.length,
+  itemListOrder: "https://schema.org/ItemListOrderDescending",
+  itemListElement: blogPosts.map((post, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    url: `${SITE_URL}/blog/${post.slug}`,
+    name: post.title,
+    item: { "@id": `${SITE_URL}/blog/${post.slug}#article` },
+  })),
 };
+
+const breadcrumbSchema = createBreadcrumbSchema(
+  [
+    { name: "الرئيسية", url: SITE_URL },
+    { name: "مدونة النجارة", url: blogUrl },
+  ],
+  breadcrumbId,
+);
+
+const structuredData = createSchemaGraph([
+  {
+    ...createWebPageSchema({
+      id: pageId,
+      url: blogUrl,
+      name: "مدونة النجارة وتفصيل الخزائن بالرياض",
+      description: blogDescription,
+      type: "CollectionPage",
+      breadcrumbId,
+      aboutId: blogId,
+      primaryImageUrl: `${SITE_URL}${blogPosts[0].image}`,
+    }),
+    mainEntity: [
+      { "@id": blogId },
+      { "@id": postsId },
+    ],
+  },
+  blogSchema,
+  postsSchema,
+  breadcrumbSchema,
+]);
 
 export default function BlogPage() {
   const [featuredPost, ...remainingPosts] = blogPosts;
 
   return (
     <main>
-      <JsonLd data={collectionSchema} />
-      <JsonLd data={breadcrumbSchema} />
+      <JsonLd data={structuredData} />
 
       <section className="blog-index-hero">
         <div className="hero-grid opacity-30" aria-hidden="true" />

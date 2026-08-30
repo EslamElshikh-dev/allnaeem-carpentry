@@ -17,6 +17,12 @@ import {
   defaultWhatsAppMessage,
 } from "@/data/site";
 import { services } from "@/data/services";
+import {
+  BUSINESS_ID,
+  createBreadcrumbSchema,
+  createSchemaGraph,
+  createWebPageSchema,
+} from "@/data/structured-data";
 
 export const metadata: Metadata = {
   title: "من نحن | أعمال نجارة منظمة في الرياض",
@@ -25,15 +31,28 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
 };
 
-const aboutSchema = {
-  "@context": "https://schema.org",
-  "@type": "AboutPage",
-  "@id": `${SITE_URL}/about#webpage`,
-  url: `${SITE_URL}/about`,
-  name: `من نحن | ${BUSINESS_NAME}`,
-  inLanguage: "ar-SA",
-  about: { "@id": `${SITE_URL}/#business` },
-};
+const aboutUrl = `${SITE_URL}/about`;
+const aboutDescription =
+  "تعرف على النعيم للمقاولات وأعمال النجارة وطريقة العمل التي تبدأ بفهم الاحتياج والقياس وتنتهي بالتركيب والمراجعة داخل الرياض.";
+const aboutBreadcrumbId = `${aboutUrl}#breadcrumb`;
+const aboutSchema = createSchemaGraph([
+  createWebPageSchema({
+    id: `${aboutUrl}#webpage`,
+    url: aboutUrl,
+    name: `من نحن | ${BUSINESS_NAME}`,
+    description: aboutDescription,
+    type: "AboutPage",
+    breadcrumbId: aboutBreadcrumbId,
+    aboutId: BUSINESS_ID,
+  }),
+  createBreadcrumbSchema(
+    [
+      { name: "الرئيسية", url: SITE_URL },
+      { name: "من نحن", url: aboutUrl },
+    ],
+    aboutBreadcrumbId,
+  ),
+]);
 
 const values = [
   ["ruler", "الدقة في القياس", "نراجع الأبعاد ونقاط الحركة والتثبيت قبل اعتماد تفاصيل العمل."],

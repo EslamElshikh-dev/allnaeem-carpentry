@@ -11,14 +11,11 @@ import { MapEmbed } from "@/components/MapEmbed";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { ServiceCard } from "@/components/ServiceCard";
-import { businessProofImages } from "@/data/businessProof";
 import {
   ADDRESS,
   ADDRESS_LONG,
   BUSINESS_CATEGORY,
-  BUSINESS_DESCRIPTION,
   BUSINESS_NAME,
-  COORDINATES,
   MAPS_URL,
   PHONE_DISPLAY,
   PHONE_E164,
@@ -27,6 +24,12 @@ import {
   defaultWhatsAppMessage,
 } from "@/data/site";
 import { services } from "@/data/services";
+import {
+  BUSINESS_ID,
+  createSchemaGraph,
+  createWebPageSchema,
+} from "@/data/structured-data";
+import { featuredWorkImage } from "@/data/workProjects";
 
 export const metadata: Metadata = {
   title: { absolute: `${BUSINESS_NAME} | نجار في الرياض` },
@@ -35,69 +38,17 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-const localBusinessSchema = {
-  "@context": "https://schema.org",
-  "@type": ["LocalBusiness", "HomeAndConstructionBusiness"],
-  "@id": `${SITE_URL}/#business`,
-  name: BUSINESS_NAME,
-  alternateName: "النعيم للنجارة",
-  description: BUSINESS_DESCRIPTION,
-  category: BUSINESS_CATEGORY,
-  url: SITE_URL,
-  telephone: PHONE_E164,
-  logo: `${SITE_URL}/icon.svg`,
-  image: businessProofImages.map((image) => ({
-    "@type": "ImageObject",
-    contentUrl: `${SITE_URL}${image.src}`,
-    caption: image.title,
-    description: image.alt,
-  })),
-  hasMap: MAPS_URL,
-  sameAs: [MAPS_URL],
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: "3612 حمل بن مالك، 6642، حي المصيف",
-    addressLocality: "الرياض",
-    addressRegion: "منطقة الرياض",
-    postalCode: "12465",
-    addressCountry: "SA",
-  },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: COORDINATES.latitude,
-    longitude: COORDINATES.longitude,
-  },
-  areaServed: { "@type": "City", name: "الرياض" },
-  contactPoint: {
-    "@type": "ContactPoint",
-    telephone: PHONE_E164,
-    contactType: "customer service",
-    areaServed: "SA",
-    availableLanguage: ["Arabic"],
-  },
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "خدمات النجارة",
-    itemListElement: services.map((service) => ({
-      "@type": "Offer",
-      itemOffered: {
-        "@type": "Service",
-        name: service.shortName,
-        url: `${SITE_URL}/services/${service.slug}`,
-      },
-    })),
-  },
-};
-
-const websiteSchema = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": `${SITE_URL}/#website`,
-  url: SITE_URL,
-  name: BUSINESS_NAME,
-  inLanguage: "ar-SA",
-  publisher: { "@id": `${SITE_URL}/#business` },
-};
+const homeSchema = createSchemaGraph([
+  createWebPageSchema({
+    id: `${SITE_URL}/#webpage`,
+    url: SITE_URL,
+    name: `${BUSINESS_NAME} | نجار في الرياض`,
+    description:
+      "النعيم للمقاولات وأعمال النجارة في حي المصيف بالرياض: نجارة عامة، صيانة وتصليح، وتفصيل دواليب وخزائن حسب المقاس.",
+    aboutId: BUSINESS_ID,
+    primaryImageUrl: `${SITE_URL}${featuredWorkImage.src}`,
+  }),
+]);
 
 const trustPoints = [
   {
@@ -152,8 +103,7 @@ function ContactActionIcon({ type }: ContactActionIconProps) {
 export default function HomePage() {
   return (
     <>
-      <JsonLd data={localBusinessSchema} />
-      <JsonLd data={websiteSchema} />
+      <JsonLd data={homeSchema} />
       <main>
         <section className="relative overflow-hidden bg-brand-950 text-white">
           <div className="hero-grid" aria-hidden="true" />

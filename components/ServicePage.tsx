@@ -6,12 +6,17 @@ import { JsonLd } from "@/components/JsonLd";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import {
-  BUSINESS_NAME,
   PHONE_E164,
   SITE_URL,
   buildWhatsAppUrl,
 } from "@/data/site";
 import type { Service } from "@/data/services";
+import {
+  BUSINESS_ID,
+  createBreadcrumbSchema,
+  createSchemaGraph,
+  createWebPageSchema,
+} from "@/data/structured-data";
 
 type ServicePageProps = {
   service: Service;
@@ -19,11 +24,13 @@ type ServicePageProps = {
 
 export function ServicePage({ service }: ServicePageProps) {
   const pageUrl = `${SITE_URL}/services/${service.slug}`;
+  const pageId = `${pageUrl}#webpage`;
+  const serviceId = `${pageUrl}#service`;
+  const breadcrumbId = `${pageUrl}#breadcrumb`;
 
   const serviceSchema = {
-    "@context": "https://schema.org",
     "@type": "Service",
-    "@id": `${pageUrl}#service`,
+    "@id": serviceId,
     name: service.name,
     serviceType: service.shortName,
     description: service.metaDescription,
@@ -33,10 +40,9 @@ export function ServicePage({ service }: ServicePageProps) {
       name: "الرياض",
     },
     provider: {
-      "@id": `${SITE_URL}/#business`,
-      "@type": "LocalBusiness",
-      name: BUSINESS_NAME,
+      "@id": BUSINESS_ID,
     },
+    mainEntityOfPage: { "@id": pageId },
     availableChannel: {
       "@type": "ServiceChannel",
       serviceUrl: buildWhatsAppUrl(service.whatsappMessage),
@@ -50,49 +56,31 @@ export function ServicePage({ service }: ServicePageProps) {
     },
   };
 
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: service.faq.map((item) => ({
-      "@type": "Question",
-      name: item.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: item.answer,
-      },
-    })),
-  };
-
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: "الرئيسية",
-        item: SITE_URL,
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: "الخدمات",
-        item: `${SITE_URL}/#services`,
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: service.shortName,
-        item: pageUrl,
-      },
+  const breadcrumbSchema = createBreadcrumbSchema(
+    [
+      { name: "الرئيسية", url: SITE_URL },
+      { name: "الخدمات", url: `${SITE_URL}/#services` },
+      { name: service.shortName, url: pageUrl },
     ],
-  };
+    breadcrumbId,
+  );
+
+  const structuredData = createSchemaGraph([
+    createWebPageSchema({
+      id: pageId,
+      url: pageUrl,
+      name: service.pageTitle,
+      description: service.metaDescription,
+      breadcrumbId,
+      aboutId: serviceId,
+    }),
+    serviceSchema,
+    breadcrumbSchema,
+  ]);
 
   return (
     <>
-      <JsonLd data={serviceSchema} />
-      <JsonLd data={faqSchema} />
-      <JsonLd data={breadcrumbSchema} />
+      <JsonLd data={structuredData} />
 
       <main>
         <section className="service-hero relative overflow-hidden bg-brand-950 text-white">

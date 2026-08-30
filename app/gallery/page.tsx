@@ -16,6 +16,12 @@ import {
   buildWhatsAppUrl,
   defaultWhatsAppMessage,
 } from "@/data/site";
+import {
+  BUSINESS_ID,
+  createBreadcrumbSchema,
+  createSchemaGraph,
+  createWebPageSchema,
+} from "@/data/structured-data";
 
 export const metadata: Metadata = {
   title: "صور أعمال النجارة والمقر",
@@ -39,16 +45,20 @@ export const metadata: Metadata = {
 };
 
 const galleryImages = [...workProjectImages, ...businessProofImages];
+const galleryUrl = `${SITE_URL}/gallery`;
+const galleryId = `${galleryUrl}#image-gallery`;
+const galleryBreadcrumbId = `${galleryUrl}#breadcrumb`;
+const galleryDescription =
+  "صور حقيقية لأعمال النجارة المنفذة ومراحل التجهيز والمقر والهوية الميدانية في الرياض.";
 
 const gallerySchema = {
-  "@context": "https://schema.org",
   "@type": "ImageGallery",
-  "@id": `${SITE_URL}/gallery#image-gallery`,
+  "@id": galleryId,
   name: `صور أعمال ${BUSINESS_NAME}`,
-  description:
-    "صور حقيقية لأعمال النجارة المنفذة ومراحل التجهيز والمقر والهوية الميدانية في الرياض.",
-  url: `${SITE_URL}/gallery`,
-  about: { "@id": `${SITE_URL}/#business` },
+  description: galleryDescription,
+  url: galleryUrl,
+  about: { "@id": BUSINESS_ID },
+  isPartOf: { "@id": `${SITE_URL}/#website` },
   inLanguage: "ar-SA",
   image: galleryImages.map((image, index) => ({
     "@type": "ImageObject",
@@ -64,30 +74,36 @@ const gallerySchema = {
   })),
 };
 
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "الرئيسية",
-      item: SITE_URL,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "صور النشاط",
-      item: `${SITE_URL}/gallery`,
-    },
+const breadcrumbSchema = createBreadcrumbSchema(
+  [
+    { name: "الرئيسية", url: SITE_URL },
+    { name: "صور النشاط", url: galleryUrl },
   ],
-};
+  galleryBreadcrumbId,
+);
+
+const galleryStructuredData = createSchemaGraph([
+  {
+    ...createWebPageSchema({
+      id: `${galleryUrl}#webpage`,
+      url: galleryUrl,
+      name: `صور أعمال ${BUSINESS_NAME}`,
+      description: galleryDescription,
+      type: "CollectionPage",
+      breadcrumbId: galleryBreadcrumbId,
+      aboutId: BUSINESS_ID,
+      primaryImageUrl: `${SITE_URL}${featuredWorkImage.src}`,
+    }),
+    mainEntity: { "@id": galleryId },
+  },
+  gallerySchema,
+  breadcrumbSchema,
+]);
 
 export default function GalleryPage() {
   return (
     <>
-      <JsonLd data={gallerySchema} />
-      <JsonLd data={breadcrumbSchema} />
+      <JsonLd data={galleryStructuredData} />
       <main>
         <section className="relative overflow-hidden bg-brand-950 py-14 text-white sm:py-16">
           <div className="hero-grid" aria-hidden="true" />

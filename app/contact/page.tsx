@@ -19,6 +19,12 @@ import {
   buildWhatsAppUrl,
   defaultWhatsAppMessage,
 } from "@/data/site";
+import {
+  BUSINESS_ID,
+  createBreadcrumbSchema,
+  createSchemaGraph,
+  createWebPageSchema,
+} from "@/data/structured-data";
 
 export const metadata: Metadata = {
   title: "تواصل معنا | النعيم للنجارة في الرياض",
@@ -27,15 +33,28 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
 };
 
-const contactSchema = {
-  "@context": "https://schema.org",
-  "@type": "ContactPage",
-  "@id": `${SITE_URL}/contact#webpage`,
-  url: `${SITE_URL}/contact`,
-  name: `تواصل معنا | ${BUSINESS_NAME}`,
-  inLanguage: "ar-SA",
-  about: { "@id": `${SITE_URL}/#business` },
-};
+const contactUrl = `${SITE_URL}/contact`;
+const contactDescription =
+  "بيانات التواصل الرسمية للنعيم للمقاولات وأعمال النجارة: الهاتف وواتساب والعنوان في حي المصيف بالرياض والخريطة ونموذج طلب الخدمة.";
+const contactBreadcrumbId = `${contactUrl}#breadcrumb`;
+const contactSchema = createSchemaGraph([
+  createWebPageSchema({
+    id: `${contactUrl}#webpage`,
+    url: contactUrl,
+    name: `تواصل معنا | ${BUSINESS_NAME}`,
+    description: contactDescription,
+    type: "ContactPage",
+    breadcrumbId: contactBreadcrumbId,
+    aboutId: BUSINESS_ID,
+  }),
+  createBreadcrumbSchema(
+    [
+      { name: "الرئيسية", url: SITE_URL },
+      { name: "تواصل معنا", url: contactUrl },
+    ],
+    contactBreadcrumbId,
+  ),
+]);
 
 export default function ContactPage() {
   return (
