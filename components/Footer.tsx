@@ -147,7 +147,7 @@ export function Footer() {
           <p dir="ltr">
             Development by |{" "}
             <a
-              href="https://eslam-elshikh.com"
+              href="https://www.eslam-elshikh.com/"
               target="_blank"
               rel="noreferrer"
               className="font-bold text-white transition hover:text-wood-300"
