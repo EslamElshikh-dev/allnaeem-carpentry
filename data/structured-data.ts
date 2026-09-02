@@ -131,6 +131,13 @@ export const websiteSchema: StructuredDataNode = {
   description: BUSINESS_DESCRIPTION,
   inLanguage: "ar-SA",
   publisher: { "@id": BUSINESS_ID },
+  creator: {
+    "@type": "Person",
+    "@id": "https://www.eslam-elshikh.com/#person",
+    name: "إسلام الشيخ",
+    alternateName: ["المهندس إسلام الشيخ", "Eslam Elshikh"],
+    url: "https://www.eslam-elshikh.com/",
+  },
 };
 
 export const sitewideSchema: StructuredDataNode = {
