@@ -1,3 +1,4 @@
+import { EslamDeveloperSignature } from "./eslam-developer-credit";
 import Link from "next/link";
 
 import { BrandLogo } from "@/components/BrandLogo";
@@ -144,17 +145,7 @@ export function Footer() {
       <div className="relative border-t border-white/10">
         <div className="container-shell flex flex-col items-center justify-between gap-3 py-5 text-center text-xs text-white/55 md:flex-row md:text-right">
           <p>جميع الحقوق محفوظة لدي/ النعيم للمقاولات وأعمال النجارة © 2026</p>
-          <p dir="ltr">
-            Development by |{" "}
-            <a
-              href="https://www.eslam-elshikh.com/"
-              target="_blank"
-              rel="noreferrer"
-              className="font-bold text-white transition hover:text-wood-300"
-            >
-              Eslam Elshikh
-            </a>
-          </p>
+          <EslamDeveloperSignature />
         </div>
       </div>
     </footer>

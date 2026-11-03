@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     BUSINESS_NAME,
   ],
   authors: [{ name: BUSINESS_NAME, url: SITE_URL }],
-  creator: BUSINESS_NAME,
+  creator: "المهندس إسلام الشيخ",
   publisher: BUSINESS_NAME,
   category: "خدمات النجارة والمقاولات",
   alternates: { canonical: "/" },
